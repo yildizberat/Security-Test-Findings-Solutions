@@ -1,0 +1,9 @@
+nmap -p 3306 <Target IP>
+
+fix:
+ >Database connections are encrypted
+ >Database credentials are long and random
+ >Change default listener port: -not 3306-
+ >the database listener port can only be accessed from the minimum possible number of hosts.
+    >iptables -A INPUT -s 10.0.0.0/24 -p tcp -m tcp --dport 3306 -j ACCEPT
+    >for more: https://7asecurity.com/blog/2011/04/iptables-white-listing-tcp-connections/
