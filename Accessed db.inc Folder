@@ -1,0 +1,11 @@
+for example : curl https://mysite.com/db.inc
+
+fix:
+go file and :
+chmod -R 700 *
+chmod -R www-data *
+
+mv db.inc db.php
+for i in $(grep 'db.inc' *.php | cut -f1 -d:|sort -u); do echo "ok $i"; sed -i $i -e 's|db.inc|db.php|g'; done 
+
+
