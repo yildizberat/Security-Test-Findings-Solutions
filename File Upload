@@ -1,0 +1,35 @@
+for php:
+
+rename the file completely:
+
+$uploadedName = $_FILES['upload']['name'];
+$ext = strtolower(substr($uploadedName, strripos($uploadedName, '.')+1));
+
+$filename = round(microtime(true)).mt_rand().'.'.$ext;
+
+or
+
+$uploadedName = $_FILES['upload']['name'];
+$ext = strtolower(substr($uploadedName, strripos($uploadedName, '.')+1));
+
+$filename = hash_file('sha256', $uploadedName) . '.' . $ext;
+
+
+check the ext.:
+
+$finfo = finfo_open(FILEINFO_MIME_TYPE); 
+echo finfo_file($finfo, $filename);
+finfo_close($finfo);
+
+check file size:
+
+if ($_FILES['pictures']['size'] > 1000000) {
+    throw new Exception('Exceeded file size limit.');
+}
+
+reference:
+https://www.php.net/manual/tr/features.file-upload.php
+https://medium.com/@nyomanpradipta120/unrestricted-file-upload-in-php-b4459eef9698
+
+
+
