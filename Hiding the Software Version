@@ -1,0 +1,41 @@
+Response:
+
+curl -is http://domain.com/ | head -20
+ .
+ .
+ .
+Server: Apache/2.2.3 (CentOs)
+.
+.
+X-Powered-By: PHP/5.4.20
+
+##########################################################
+Fix: - Apache Version -
+Open httpd.conf file as below:
+
+# vim /etc/httpd/conf/httpd.conf
+
+Make sure, you set the values of ‘ServerSignature‘ and ‘ServerTokens‘ as below:
+
+ServerSignature Off
+ServerTokens Prod
+
+Restart the web server as below:
+
+# /etc/init.d/httpd restart
+
+##########################################################
+
+Fix: - Php Version -
+
+Open php.ini file as below:
+
+# vi /etc/php.ini
+
+Make sure ‘expose_php‘ is turned Off as below:
+
+expose_php = Off
+
+Restart web server as below:
+
+# /etc/init.d/httpd restart
