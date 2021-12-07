@@ -1,0 +1,31 @@
+In your .htaccess file, after the lines:
+---	
+RewriteEngine On
+RewriteBase /
+---
+Add this:
+---	
+<Files adminpage.php>
+order deny,allow
+deny from all
+allow from <YOUR IP>
+</Files>
+---
+An Example using the IP address I showed earlier:
+---
+<Files adminpage.php>
+order deny,allow
+deny from all
+allow from 198.168.1.39
+</Files>
+---
+UPDATE
+
+I have noticed that some of the Spam bots will try to POST directly to xmlrpc.php. The way to combat this is to add it to the same FILES directive above:
+--- 
+<Files adminpage\.php | xmlrpc\.php>
+order deny,allow
+deny from all
+allow from 198.168.1.39
+</Files>
+---
