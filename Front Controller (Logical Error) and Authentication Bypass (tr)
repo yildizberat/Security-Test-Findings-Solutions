@@ -1,0 +1,63 @@
+Örnek olarak, kullanıcılardan gelen istekler doğrultusunda öncelikle bir yetkilendirme kontrolü yapılır ve bu isteklerin loglanması ve takibi gerektiriyor olabilir. 
+Yetkili bir kullanıcının erişmek istediği verilere rolünün olup olmadığı kontrolü gerekir. 
+Bu tarz kontrolleri her bir işlem için tekrar yapmak yerine istekleri merkezi bir controller’da karşılayarak, öncelikli olarak orada bir yerden 
+gerçekleştirip sonra isteği ilgili koda yönlendirmek tasarımsal açıdan doğru bir yaklaşım olacaktır ve tekrar eden kod miktarını düşürecektir.
+
+front controller için detaylı örnekler ve anlatımlar içi :
+
+https://www.tutorialspoint.com/design_pattern/front_controller_pattern.htm
+https://framework.zend.com/manual/1.12/en/zend.controller.front.html
+http://www.corej2eepatterns.com/Patterns2ndEd/FrontController.htm
+https://docs.microsoft.com/en-us/previous-versions/msp-n-p/ff647590(v=pandp.10)?redirectedfrom=MSDN
+
+
+
+apache, ilgili dizinlerde .htaccess dosyaları aracılığıyla kimlik doğrulama yönergeleri sağlar:
+
+
+ilgili dizine gidin:
+$ nano  .htaccess
+
+AuthName "Authorized Users Only."
+
+AuthType Basic
+
+AuthUserFile /etc/httpd/conf/.htpasswd
+
+require user testusr
+
+$ adduser   testusr
+
+$ passwd   testusr
+
+$ htpasswd  -c /etc/httpd/conf/.htpasswd  testusr
+
+$ chown apache.apache  /etc/httpd/conf/.htpasswd 
+
+$ nano httpd.conf
+
+<Directory "/var/www/html">
+  AllowOverride AuthConfig
+  Order allow,deny
+  Allow from all
+</Directory>
+
+virtualhost kullanıyorsanız:
+<VirtualHost yorwebsite>
+  DocumentRoot /var/www/html/yourwebsite
+  ServerName www.cbtcandy.org
+  <Directory /var/www/html/yourwebsite> 
+
+    AllowOverride AuthConfig
+    Order allow,deny
+    Allow from all
+    Options -Indexes
+  </Directory>
+</VirtualHost>
+
+
+$ service httpd restart
+
+referans:
+https://httpd.apache.org/docs/2.2/howto/auth.html
+
