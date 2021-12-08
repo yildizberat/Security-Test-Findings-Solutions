@@ -28,3 +28,7 @@
     $IPT -A INPUT -p tcp --dport 80 -i eth0 -m state --state NEW -m recent --update --seconds ${SECONDS} --hitcount ${BLOCKCOUNT} -j ${DACTION}
 
  
+
+
+for more:
+https://portswigger.net/blog/preventing-username-enumeration
