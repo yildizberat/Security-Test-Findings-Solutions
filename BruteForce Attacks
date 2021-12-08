@@ -26,9 +26,15 @@
     DACTION="DROP"
     $IPT -A INPUT -p tcp --dport 80 -i eth0 -m state --state NEW -m recent --set
     $IPT -A INPUT -p tcp --dport 80 -i eth0 -m state --state NEW -m recent --update --seconds ${SECONDS} --hitcount ${BLOCKCOUNT} -j ${DACTION}
-
+    
+ Note:
+ add increasing delay after each failed login attempt (i.e 20 seconds after second try, 30 seconds after third try, etc)
+ after 3 failed login attempts show captcha puzzle
+ after 10 lofin attempts lock the user out
+ after 2 hours unlock the user account and send mail for change user cred.
  
-
-
 for more:
 https://portswigger.net/blog/preventing-username-enumeration
+https://www.troyhunt.com/owasp-top-10-for-net-developers-part-3/
+https://www.cirt.net/passwords
+https://wiki.owasp.org/index.php/Testing_for_Brute_Force_(OWASP-AT-004)
