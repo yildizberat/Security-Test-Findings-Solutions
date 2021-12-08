@@ -1,0 +1,21 @@
+check your HSTS header:
+
+https://hstspreload.org/?domain=<yourwebsite>
+
+***************************************************
+Apache:
+
+<VirtualHost *:80>
+  ServerAlias *
+  RewriteEngine On
+  RewriteRule ^(.*)$ https://%{HTTP_HOST}$1
+[redirect=301]
+</VirtualHost>
+
+***************************************************
+
+for ngnix:
+https://www.nginx.com/blog/http-strict-transport-security-hsts-and-nginx/
+
+for IIS:
+https://docs.microsoft.com/en-us/iis/get-started/whats-new-in-iis-10-version-1709/iis-10-version-1709-hsts
