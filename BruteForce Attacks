@@ -1,0 +1,30 @@
+> first solution method: -Captcha-
+
+> secondn solution method: temporarily block or throttle the IP
+   >Limit SSH Connections Per IP / Host :
+    /sbin/iptables  -A INPUT -p tcp --syn --dport 22 -m connlimit --connlimit-above 3 -j REJECT
+    # save the changes see iptables-save man page, the following is redhat and friends specific command
+    service iptables save
+   >Limit HTTP Connections Per IP / Host :
+    /sbin/iptables -A INPUT -p tcp --syn --dport 80 -m connlimit --connlimit-above 20 -j REJECT --reject-with tcp-reset
+    # save the changes see iptables-save man page, the following is redhat and friends specific command
+    service iptables save
+   >Skip proxy server IP 1.2.3.4 from this kind of limitations:
+    /sbin/iptables -A INPUT -p tcp --syn --dport 80 -d ! 1.2.3.4 -m connlimit --connlimit-above 20 -j REJECT --reject-with tcp-reset
+   >Class C Limitations:
+    /sbin/iptables  -A INPUT -p tcp --syn --dport 80 -m connlimit --connlimit-above 20 --connlimit-mask 24 -j REJECT --reject-with tcp-reset
+    # save the changes see iptables-save man page
+    service iptables save
+   >Limit Connections Per Second
+    #!/bin/bash
+    IPT=/sbin/iptables 
+    # Max connection in seconds
+    SECONDS=100
+    # Max connections per IP
+    BLOCKCOUNT=10
+    # default action can be DROP or REJECT
+    DACTION="DROP"
+    $IPT -A INPUT -p tcp --dport 80 -i eth0 -m state --state NEW -m recent --set
+    $IPT -A INPUT -p tcp --dport 80 -i eth0 -m state --state NEW -m recent --update --seconds ${SECONDS} --hitcount ${BLOCKCOUNT} -j ${DACTION}
+
+ 
