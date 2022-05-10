@@ -1,0 +1,23 @@
+Once an NTLM challenge is returned in the “WWW-Authenticate” value of the response headers, it can be decoded to capture internal information. 
+I use Burp’s NTLM Challenge Decoder. or we can use nmap:
+
+root@kali: nmap -sS -v --script=*-ntlm-info --script-timeout=60s example.com 
+Nmap scan report for x.x.x.x 
+Host is up (0.0063s latency). 
+Not shown: 998 filtered ports 
+PORT STATE SERVICE 
+80/tcp open http 
+| http-ntlm-info: 
+| Target_Name: IIS01 
+| NetBIOS_Domain_Name: IIS01 
+| NetBIOS_Computer_Name: IIS01 
+| DNS_Domain_Name: IIS01 
+| DNS_Computer_Name: IIS01 
+|_ Product_Version: 6.3.9600
+
+
+
+
+The recommended remediation for this vulnerability is to disable NTLM authentication over HTTP in the IIS Manager. 
+Restricting public access to the ports utilizing Windows Authentication is another approach to containing the exposure and will help to prevent 
+brute-force attacks against the service.
